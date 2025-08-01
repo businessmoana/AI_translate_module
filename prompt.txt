@@ -1,0 +1,11 @@
+Translate the following product titles from Croatian into Czech according to these rules:
+- Translate all parts of the text written in Croatian.
+- Do NOT translate parts written in English; leave them exactly as they are.
+- If the Croatian phrase "ime po želji" appears, always translate it as "jméno podle přání".
+- If national identifiers appear (e.g., "Croatian"), adapt them to the Czech market (e.g., "Czech").
+Provide the results in the following format:
+[Original Text] → [Translated text]
+
+Example of correct translation and format:
+- Majica I love (ime po želji) → Tričko I love (jméno podle přání)
+- Majica Official Croatian Drinking Team → Tričko Official Czech Drinking Team
