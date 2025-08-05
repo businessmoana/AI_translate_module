@@ -75,23 +75,6 @@ async function translateChunk(text, prompt) {
         });
 
     return response.choices[0].message.content.trim();
-    const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: [
-        {
-          role: "system",
-          content: prompt
-        },
-        {
-          role: "user",
-          content: text
-        }
-      ],
-      max_tokens: 2000,
-      temperature: 0.3,
-    });
-
-    return completion.choices[0].message.content;
   } catch (error) {
     console.error('Error translating chunk:', error);
     return text; // Return original text if translation fails
@@ -118,26 +101,26 @@ async function processInputFiles() {
       const inputPath = path.join(INPUT_FOLDER, file);
       const content = await fs.readFile(inputPath, 'utf8');
       
-      // Split into chunks
-      const chunks = splitIntoChunks(content, CHUNK_SIZE);
-      console.log(`Split into ${chunks.length} chunks of ${CHUNK_SIZE} lines each`);
+      // Split into lines
+      const lines = content.split('\n').filter(line => line.trim() !== '');
+      console.log(`Processing ${lines.length} lines`);
       
-      // Translate each chunk
-      const translatedChunks = [];
-      for (let i = 0; i < chunks.length; i++) {
-        console.log(`Translating chunk ${i + 1}/${chunks.length}`);
-        const translatedChunk = await translateChunk(chunks[i], prompt);
-        translatedChunks.push(translatedChunk);
+      // Translate each line
+      const translatedLines = [];
+      for (let i = 0; i < lines.length; i++) {
+        console.log(`Translating line ${i + 1}/${lines.length}`);
+        const translatedLine = await translateChunk(lines[i], prompt);
+        translatedLines.push(translatedLine);
         
-        // Add delay to avoid rate limiting
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        // Add delay to avoid rate limiting if needed
+        // await new Promise(resolve => setTimeout(resolve, 1000));
       }
       
-      // Combine translated chunks
-      const translatedText = translatedChunks.join('\n\n');
+      // Combine translated lines
+      const translatedText = translatedLines.join('\n');
       
       // Save to output folder
-      const outputPath = path.join(OUTPUT_FOLDER, `translated_${file}`);
+      const outputPath = path.join(OUTPUT_FOLDER, `exported_${file}`);
       await fs.writeFile(outputPath, translatedText, 'utf8');
       
       console.log(`Translation completed: ${outputPath}`);
