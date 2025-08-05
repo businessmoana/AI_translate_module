@@ -76,7 +76,7 @@ async function translateChunk(text, prompt) {
 
     return response.choices[0].message.content.trim();
   } catch (error) {
-    console.error('Error translating chunk:', error);
+    console.error('Error Generating chunk:', error);
     return text; // Return original text if translation fails
   }
 }
@@ -108,7 +108,7 @@ async function processInputFiles() {
       // Translate each line
       const translatedLines = [];
       for (let i = 0; i < lines.length; i++) {
-        console.log(`Translating line ${i + 1}/${lines.length}`);
+        console.log(`Generating line ${i + 1}/${lines.length}`);
         const translatedLine = await translateChunk(lines[i], prompt);
         translatedLines.push(translatedLine);
         
